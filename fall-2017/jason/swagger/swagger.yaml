@@ -63,7 +63,7 @@ paths:
       parameters:
         - in: body
           name: body
-          description: Task object that needs to be stored
+          description: Task object that needs to be updated
           required: true
           schema:
             $ref: '#/definitions/Task'
@@ -74,6 +74,18 @@ paths:
           description: Task not found
         '405':
           description: Validation exception
+  /tasks:
+    get:
+      tags:
+        - task
+      summary: Get all tasks
+      description: Returns a list of all tasks
+      operationId: getAllTasksInList
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful get
   '/task/{taskId}':
     get:
       tags:
@@ -245,6 +257,60 @@ paths:
       responses:
         '400':
           description: Invalid username supplied
+        '404':
+          description: User not found
+  '/users/{id}/tasks':
+    get:
+      tags:
+        - user
+      summary: Get user by user name
+      description: ''
+      operationId: getUserTasksById
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The user id that needs to be fetched.
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Task'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+  '/users/{userId}/tasks/{taskId}':
+    get:
+      tags:
+        - user
+      summary: Get task by id from user by name
+      description: ''
+      operationId: getTaskByIDUserByName
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: userId
+          in: path
+          description: 'The name that needs to be fetched. Use user1 for testing. '
+          required: true
+          type: integer
+        - name: taskId
+          in: path
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Invalid username or task Id supplied
         '404':
           description: User not found
 definitions:
