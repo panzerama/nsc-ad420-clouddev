@@ -15,147 +15,11 @@
   },
   "host": "jd.swagger.io",
   "basePath": "/v2",
-  "tags": [
-    {
-      "name": "task",
-      "description": "an individual task",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
-    },
-    {
-      "name": "user",
-      "description": "Operations about user",
-      "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
-      }
-    }
-  ],
   "schemes": [
     "http"
   ],
   "paths": {
-    "/task/{taskId}": {
-      "get": {
-        "tags": [
-          "task"
-        ],
-        "summary": "Find task by ID",
-        "description": "Returns a single task",
-        "operationId": "getTaskById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "taskId",
-            "in": "path",
-            "description": "ID of task to return",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Task"
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Task not found"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "task"
-        ],
-        "summary": "Updates a task in the list with form data",
-        "description": "",
-        "operationId": "updateTaskWithForm",
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "taskId",
-            "in": "path",
-            "description": "ID of task that needs to be updated",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "name",
-            "in": "formData",
-            "description": "Updated name of the task",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "status",
-            "in": "formData",
-            "description": "Updated status of the pet",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "task"
-        ],
-        "summary": "Deletes a task",
-        "description": "",
-        "operationId": "deleteTask",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "api_key",
-            "in": "header",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "taskId",
-            "in": "path",
-            "description": "task id to delete",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "task not found"
-          }
-        }
-      }
-    },
-    "/user": {
+    "/users": {
       "post": {
         "tags": [
           "user"
@@ -183,41 +47,59 @@
             "description": "successful operation"
           }
         }
-      }
-    },
-    "/user/{username}": {
+      },
       "get": {
         "tags": [
           "user"
         ],
         "summary": "Get user by user name",
-        "description": "",
+        "description": " a thing ",
         "operationId": "getUserByName",
         "produces": [
           "application/xml",
           "application/json"
         ],
+        "responses": {
+          "200": {
+            "description": "search results matching criteria",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "404": {
+            "description": "bad request"
+          }
+        }
+      }
+    },
+    "/users/{userid}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "retrieve user by id",
+        "description": "gets a user",
         "parameters": [
           {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "in": "query",
+            "name": "userid",
+            "description": "id of user to get",
             "required": true,
-            "type": "string"
+            "type": "integer"
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
+            "description": "success"
           },
           "400": {
-            "description": "Invalid username supplied"
+            "description": "bad id"
           },
           "404": {
-            "description": "User not found"
+            "description": "user not found"
           }
         }
       },
@@ -234,9 +116,9 @@
         ],
         "parameters": [
           {
-            "name": "username",
+            "name": "userid",
             "in": "path",
-            "description": "name that need to be updated",
+            "description": "id that needs to be updated",
             "required": true,
             "type": "string"
           },
@@ -272,7 +154,7 @@
         ],
         "parameters": [
           {
-            "name": "username",
+            "name": "userid",
             "in": "path",
             "description": "The name that needs to be deleted",
             "required": true,
@@ -280,6 +162,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "deletion successful"
+          },
           "400": {
             "description": "Invalid username supplied"
           },
@@ -324,6 +209,41 @@
             "description": "User not found"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "createUserTask",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "User id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
       }
     },
     "/users/{userId}/tasks/{taskId}": {
@@ -362,6 +282,76 @@
           },
           "400": {
             "description": "Invalid username or task Id supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updated task for user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateTaskForUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "taskId",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "delete task for user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "deleteTaskForUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "taskId",
+            "in": "path",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
           },
           "404": {
             "description": "User not found"
