@@ -14,16 +14,13 @@ basePath: /v2
 schemes:
   - http
 paths:
-  '/users':
+  /users:
     post:
       tags:
         - user
       summary: Create user
       description: This can only be done by the logged in user.
       operationId: createUser
-      produces:
-        - application/xml
-        - application/json
       parameters:
         - in: body
           name: body
@@ -32,8 +29,10 @@ paths:
           schema:
             $ref: '#/definitions/User'
       responses:
-        default:
+        '200':
           description: successful operation
+        '400':
+          description: bad request
     get:
       tags:
         - user
@@ -44,14 +43,14 @@ paths:
         - application/xml
         - application/json
       responses:
-        200:
-          description: "search results matching criteria"
+        '200':
+          description: search results matching criteria
           schema:
-            type: "array"
+            type: array
             items:
-              $ref: "#/definitions/User"
-        404:
-          description: bad request
+              $ref: '#/definitions/User'
+        '404':
+          description: user not found
   '/users/{userid}':
     get:
       tags:
@@ -65,11 +64,11 @@ paths:
           required: true
           type: integer
       responses:
-        200:
+        '200':
           description: success
-        400:
+        '400':
           description: bad id
-        404:
+        '404':
           description: user not found
     put:
       tags:
@@ -93,9 +92,9 @@ paths:
           schema:
             $ref: '#/definitions/User'
       responses:
-        400:
+        '400':
           description: Invalid user supplied
-        404:
+        '404':
           description: User not found
     delete:
       tags:
@@ -113,11 +112,11 @@ paths:
           required: true
           type: string
       responses:
-        200:
+        '200':
           description: deletion successful
-        400:
+        '400':
           description: Invalid username supplied
-        404:
+        '404':
           description: User not found
   '/users/{id}/tasks':
     get:
@@ -168,7 +167,7 @@ paths:
       responses:
         default:
           description: successful operation
-  /users/{userId}/tasks/{taskId}:
+  '/users/{userId}/tasks/{taskId}':
     get:
       tags:
         - user
@@ -217,9 +216,9 @@ paths:
           type: integer
           required: true
       responses:
-        400:
+        '400':
           description: Invalid user supplied
-        404:
+        '404':
           description: User not found
     delete:
       tags:
@@ -241,9 +240,9 @@ paths:
           type: integer
           required: true
       responses:
-        400:
+        '400':
           description: Invalid user supplied
-        404:
+        '404':
           description: User not found
 definitions:
   User:
@@ -258,8 +257,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Task'
-    xml:
-      name: User
   Task:
     type: object
     required:
@@ -271,8 +268,3 @@ definitions:
       description:
         type: string
         example: thing to do
-    xml:
-      name: Task
-externalDocs:
-  description: Find out more about Swagger
-  url: 'http://swagger.io'

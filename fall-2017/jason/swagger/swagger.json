@@ -27,10 +27,6 @@
         "summary": "Create user",
         "description": "This can only be done by the logged in user.",
         "operationId": "createUser",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "in": "body",
@@ -43,8 +39,11 @@
           }
         ],
         "responses": {
-          "default": {
+          "200": {
             "description": "successful operation"
+          },
+          "400": {
+            "description": "bad request"
           }
         }
       },
@@ -70,7 +69,7 @@
             }
           },
           "404": {
-            "description": "bad request"
+            "description": "user not found"
           }
         }
       }
@@ -377,9 +376,6 @@
             "$ref": "#/definitions/Task"
           }
         }
-      },
-      "xml": {
-        "name": "User"
       }
     },
     "Task": {
@@ -396,14 +392,7 @@
           "type": "string",
           "example": "thing to do"
         }
-      },
-      "xml": {
-        "name": "Task"
       }
     }
-  },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
   }
 }
