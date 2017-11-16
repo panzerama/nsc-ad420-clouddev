@@ -388,10 +388,19 @@
           "type": "integer",
           "format": "int64"
         },
-        "description": {
+        "title": {
           "type": "string",
           "example": "thing to do"
+        },
+        "due date": {
+          "type" : "string",
+          "example" : "2017-11-10"
+        },
+        "status" : {
+          "type" : "string",
+          "example" : "New"
         }
+
       }
     }
   }
